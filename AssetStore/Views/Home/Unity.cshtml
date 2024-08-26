@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Unity";
+}
+
+@model AssetsViewModel
+
+
+<div class="text-center">
+    <h1 class="display-4">Unity Assets</h1>
+
+    <div class="container mt-4">
+        <div class="row">
+            @foreach (var asset in Model.Assets)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="@Url.Content(asset.ImagePath)" class="card-img-top" alt="@asset.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@asset.Name</h5>
+                            <p class="card-text">@asset.Description</p>
+                            <a href="@Url.Content(asset.FilePath)" class="btn btn-primary">Download</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <nav>
+            <ul class="pagination">
+                @if (Model.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })">Предыдущая</a>
+                    </li>
+                }
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    </li>
+                }
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">Следующая</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+
+</div>
